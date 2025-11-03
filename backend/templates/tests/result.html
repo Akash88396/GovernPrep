@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}Test Result & Analysis{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Score Summary Card -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card text-center shadow-lg mb-5">
+                <div class="card-header bg-light py-3">
+                    <h2>Result Summary: {{ mock_test.title }}</h2>
+                </div>
+                <div class="card-body p-4">
+                    <h1 class="card-title text-muted">Final Score</h1>
+                    <p class="display-2 fw-bold my-3">{{ marks_obtained|floatformat:2 }} / {{ total_marks_of_test }}</p>
+                    <hr>
+                    <div class="row my-4">
+                        <div class="col-4 border-end">
+                            <h3 class="text-success">{{ correct_answers }}</h3>
+                            <p>Correct</p>
+                        </div>
+                        <div class="col-4 border-end">
+                            <h3 class="text-danger">{{ incorrect_answers }}</h3>
+                            <p>Incorrect</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-muted">{{ skipped_answers }}</h3>
+                            <p>Skipped</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3">
+                    <a href="{% url 'test_series:mock_test_list' mock_test.exam.id %}" class="btn btn-secondary">Back to Mock Tests</a>
+                    <a href="{% url 'users:dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+
+    <!-- === YAHAN SE NAYA ANALYSIS SECTION SHURU HOTA HAI === -->
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="mb-4 text-center">Detailed Analysis</h2>
+
+            {% for result in detailed_results %}
+            <div class="card mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <p class="fw-bold fs-5 mb-0">Q{{ forloop.counter }}: {{ result.question.text }}</p>
+                    {% if result.status == 'correct' %}
+                        <span class="badge bg-success-subtle text-success-emphasis rounded-pill p-2">Correct</span>
+                    {% elif result.status == 'incorrect' %}
+                        <span class="badge bg-danger-subtle text-danger-emphasis rounded-pill p-2">Incorrect</span>
+                    {% else %}
+                        <span class="badge bg-secondary-subtle text-secondary-emphasis rounded-pill p-2">Skipped</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                    {% for choice in result.question.choices.all %}
+                        {% if choice == result.correct_choice %}
+                            <li class="list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                                {{ choice.text }}
+                                <span><i class="bi bi-check-circle-fill"></i> Correct Answer</span>
+                            </li>
+                        {% elif choice == result.selected_choice %}
+                            <li class="list-group-item list-group-item-danger d-flex justify-content-between align-items-center">
+                                {{ choice.text }}
+                                <span><i class="bi bi-x-circle-fill"></i> Your Answer</span>
+                            </li>
+                        {% else %}
+                            <li class="list-group-item">{{ choice.text }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

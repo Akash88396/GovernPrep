@@ -1,0 +1,37 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<div>
+    <h1>{{ title }}</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <fieldset class="module aligned">
+            <div class="form-row">
+                {{ form.csv_file.label_tag }}
+                {{ form.csv_file }}
+            </div>
+            <div class="form-row">
+                {{ form.upload_type.label_tag }}
+                {{ form.upload_type }}
+                <div class="help-text">
+                    <strong>Append (Safe):</strong> Sirf naye questions ko purane question bank mein jodega. Puraane mock tests surakshit rahenge.<br>
+                    <strong>Replace (Dangerous):</strong> Is exam ke saare purane questions aur mock tests ko hamesha ke liye delete kar dega.
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="submit-row">
+            <input type="submit" value="Upload" class="default">
+            <a href=".." class="button">Cancel</a>
+        </div>
+    </form>
+    
+    <div style="margin-top: 40px;">
+        <h2>CSV Format Instructions</h2>
+        <p>Your CSV file must have these headers: <code>question_text,choice1,choice2,choice3,choice4,correct_choice</code></p>
+    </div>
+</div>
+{% endblock %}

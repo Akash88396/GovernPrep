@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ mock_test.title }}{% endblock %}
+
+{% block content %}
+<style>
+    /* Timer ke header ka style */
+    .timer-header {
+        background-color: #fff;
+        border-bottom: 1px solid #dee2e6;
+        padding: 0.75rem 0;
+        z-index: 1020; /* Navbar ke neeche rahe */
+    }
+    #countdown-timer {
+        font-family: var(--heading-font);
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #343a40;
+    }
+    /* Jab samay kam bachega to timer laal ho jayega */
+    .time-warning {
+        color: #dc3545 !important;
+        animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    .timer-header { background-color: #fff; border-bottom: 1px solid #dee2e6; padding: 0.75rem 0; z-index: 1020; }
+    #countdown-timer { font-family: var(--heading-font); font-size: 1.75rem; font-weight: 600; color: #343a40; }
+    .time-warning { color: #dc3545 !important; animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+
+</style>
+
+<div class="timer-header sticky-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <h5 class="mb-0">{{ mock_test.title }}</h5>
+            
+            <small class="text-muted">
+                Correct: <span class="text-success fw-bold">+{{ marks_per_question|floatformat:2 }}</span> | 
+                Incorrect: <span class="text-danger fw-bold">-{{ mock_test.negative_marks_per_question|floatformat:2 }}</span>
+            </small>
+        </div>
+        <div class="d-flex align-items-center">
+            <i class="bi bi-clock-history fs-2 me-2"></i>
+            <div id="countdown-timer">--:--</div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <div class="card shadow-lg">
+        <div class="card-body p-4 p-md-5">
+            <form id="test-form" method="post" action="{% url 'tests:result_view' mock_test.id %}">
+                {% csrf_token %}
+                {% for question in questions %}
+                <div class="card my-4">
+                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                        <p class="fw-bold fs-5 mb-0">Q{{ forloop.counter }}: {{ question.text }}</p>
+                        
+                    </div>
+                    <div class="card-body">
+                        {% for choice in question.choices.all %}
+                        <div class="form-check fs-5 my-2">
+                            <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="choice_{{ choice.id }}" value="{{ choice.id }}">
+                            <label class="form-check-label" for="choice_{{ choice.id }}">{{ choice.text }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="d-grid mt-5">
+                    <button type="submit" class="btn btn-success btn-lg">Submit Test</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Django se test ka duration (minutes mein) lein
+        const durationInMinutes = {{ mock_test.duration_minutes }};
+        
+        // Form aur Timer ke elements ko select karein
+        const testForm = document.getElementById('test-form');
+        const timerDisplay = document.getElementById('countdown-timer');
+
+        // Total time ko seconds mein convert karein
+        let timeRemainingInSeconds = durationInMinutes * 60;
+
+        // Har second chalne wala function (interval)
+        const countdownInterval = setInterval(function() {
+            // Har second 1 kam karein
+            timeRemainingInSeconds--;
+
+            // Bacha hua time minutes aur seconds mein calculate karein
+            const minutes = Math.floor(timeRemainingInSeconds / 60);
+            const seconds = timeRemainingInSeconds % 60;
+
+            // Timer ko "05:09" jaise format mein display karein
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+            // Agar 5 minute se kam bache hain, to timer ko laal kar dein
+            if (timeRemainingInSeconds < 300 && !timerDisplay.classList.contains('time-warning')) {
+                timerDisplay.classList.add('time-warning');
+            }
+
+            // Agar time khatam ho gaya hai
+            if (timeRemainingInSeconds <= 0) {
+                clearInterval(countdownInterval); // Interval ko rokein
+                alert("Time's up! Your test has been submitted.");
+                testForm.submit(); // Form ko automatically submit kar dein
+            }
+        }, 1000); // Yeh function har 1000 milliseconds (1 second) mein chalega
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Test form ke andar ke saare radio buttons ko select karein
+        const radioButtons = document.querySelectorAll('#test-form .form-check-input[type="radio"]');
+
+        radioButtons.forEach(radio => {
+            // Har radio button ke liye ek variable banayein jo uske 'checked' state ko yaad rakhega
+            let wasChecked = false;
+
+            // 'mousedown' event (click se theek pehle) par check karein ki button pehle se checked tha ya nahi
+            radio.addEventListener('mousedown', function() {
+                wasChecked = this.checked;
+            });
+
+            // 'click' event par, agar button pehle se checked tha, to use uncheck kar dein
+            radio.addEventListener('click', function() {
+                if (wasChecked) {
+                    this.checked = false;
+                }
+            });
+        });
+    });
+</script>
+
+
+{% endblock %}

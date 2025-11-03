@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ exam.title }} - Mock Tests
+{% endblock %}
+
+{% block content %}
+  <div class="container my-5">
+    <div class="d-flex align-items-center mb-4">
+      <h1 class="mb-0 text-center">{{ exam.title }} Mock Tests</h1>
+    </div>
+
+    <div class="list-group">
+      {% for test in mock_tests %}
+        <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-3">
+          <div>
+            <h5 class="mb-1">{{ test.title }}</h5>
+
+            <small class="text-muted">
+              <i class="bi bi-clock"></i>  Duration: {{ test.duration_minutes}} | Total Marks: {{ test.total_marks }}</small>
+          </div>
+          <a href="{% url 'tests:test_view' test.id %}" class="btn btn-primary">Start Test</a>
+        </div>
+      {% empty %}
+        <div class="alert alert-info">No mock tests available for this exam yet.</div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

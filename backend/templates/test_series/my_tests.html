@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  My Test Series
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="my-4">
+      <h1 class="mb-0 text-center">My Subscribed Exams</h1>
+    </div>
+    <p class="lead mb-4">Here are all the exam series you have added. Select one to start a mock test.</p>
+
+    {% if subscribed_exams %}
+      <div class="row">
+        {% for exam in subscribed_exams %}
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body text-center">
+                <img src="{{ exam.logo_url|default:'https://placehold.co/150x150/EFEFEF/AAAAAA?text=Exam' }}" class="img-fluid mb-3" alt="{{ exam.title }} Logo" style="max-height: 80px;" />
+                <h5 class="card-title">{{ exam.title }}</h5>
+                <p class="card-text text-muted small">{{ exam.description|truncatewords:10 }}</p>
+              </div>
+              <div class="card-footer bg-white border-0 pb-3">
+                <a href="{% url 'test_series:mock_test_list' exam.id %}" class="btn btn-success w-100">View Mock Tests</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="alert alert-info mt-4">
+        <h4 class="alert-heading">No Test Series Added Yet!</h4>
+        <p>You haven't added any exams to your test series. Go to the homepage to explore and add exams.</p>
+        <hr />
+        <a href="{% url 'exams:home' %}" class="btn btn-primary">Explore Exams</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+1 = Step to create a project in django 
+          first make vertual environmet to create any project in django
+
+2 = On that environmet install all neccessary tools by using pip like django djangoFramework etc.
+
+3 = now create project in django using command = django-admin startproject <project-name>
+
+4 = after creating project then create app = python manage.py startapp <app_name>
+
+5 = after creating app then add this app in project/setting.py file where written INSTALL APP[...,app-name,]
+
+point to be noted that in project folder there is file that is urls.py but in app folder there is no such this file\
+so we have to create first urls.py in app folder just copy from project/urls.py and past app/urls.py
+
+now from starting  the user enter url on the browser that url match with project urls.py
+ab jaise hi project ke urls.py se url match ho jaati ha  to wh use url pr divert ho jata h jo ki vo app urls.py ki file ka url hota h wha pr view ko import krte h quki view hi h jo website pr show krga
+View hm  do tarike se kra shkte h first is template and second is Httpresponsd se jisme hm log jadater template hi use krte h 
+
+if urls not match then give erro of 404
+
+Static file = isme hm vo data rkhte h jo puplic use access kr shke jaise ki css, javaScript file or images etc but not store importend data
+
+
+template = ye html ke jaise hota  h isme html likhi jati h or isme view ke jariye ( return respons(request,"template_name",propm)) hm variable bhi kra shakte ha 
+or ue variable modle (yani ki database se fetch hoker template me store honge)
+
+
+step to creating models= >
+
+step 1 -> go in your app and find the file name models.py Now here you have create
+schema of your database like tables and constrains
+
+syntax =>
+
+from django.db import models
+
+class Model_Name(models.Model):
+    # Field definitions go here
+    field_name = models.FieldType(options)
+
+example+>
+
+class Product(models.Model):
+    product_id = models.AutoField(primary_key=True)
+    product_name = models.CharField(max_length=50)
+    category = models.CharField(max_length=50,default="")
+    subcategory = models.CharField(max_length=50,default="")
+    price = models.IntegerField(default=0)
+    desc = models.CharField(max_length=300)
+    pub_date=models.DateField()
+    image = models.ImageField(upload_to="shop/images", default="")
+    
+    def __str__(self):// for show name of the prodect in databse when something is added
+        return self.product_name
+
+
+ step2  => Register your models 
+
+your_project/
+├── manage.py
+├── your_project/
+│   └── ...
+└── store/
+    ├── __init__.py
+    ├── admin.py  <-- You'll add your code here
+    ├── apps.py
+    ├── migrations/
+    ├── models.py
+    ├── tests.py
+    └── views.py <--IF any modules if u r using here first you have to import it here
+
+ ab abne app ke addmin.py me jao or waha models.py ko Register kro 
+
+ syntax for Register=>
+
+from django.contrib import admin
+from .models import (model_name)  # Import the Product model from models.py
+
+# Register your models here.
+admin.site.register(Model_Name)
+
+point to be noted your main app should be listed on project's setting.py in INSTALL_APP =[
+    "your aap"
+]
+
+step 3 => now run command python manage.py makemigrations
+
+it will create new  migrations folder in your app and store all updations
+
+step -4 = final run command python manage.py migrate 
+it will store all data whatever  migrations has done

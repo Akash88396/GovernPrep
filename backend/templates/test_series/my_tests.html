@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
   My Test Series
@@ -17,7 +18,7 @@
           <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
               <div class="card-body text-center">
-                <img src="{{ exam.logo_url|default:'https://placehold.co/150x150/EFEFEF/AAAAAA?text=Exam' }}" class="img-fluid mb-3" alt="{{ exam.title }} Logo" style="max-height: 80px;" />
+                <img src="{% static exam.logo_url %}" class="img-fluid mb-3" alt="{{ exam.title }} Logo" style="max-height: 80px;" />
                 <h5 class="card-title">{{ exam.title }}</h5>
                 <p class="card-text text-muted small">{{ exam.description|truncatewords:10 }}</p>
               </div>

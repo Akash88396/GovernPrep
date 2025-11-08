@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}About Us - GovernPrep{% endblock %}
 
@@ -7,7 +8,7 @@
     /* === YAHAN BADLAV KIYA GAYA HAI === */
     .about-header {
         position: relative;
-        background-image: url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2070&auto=format&fit=crop');
+        background-image: url('{% static '/exams/img/about-header.png' %}');
         background-size: cover;
         background-position: center;
         color: white;

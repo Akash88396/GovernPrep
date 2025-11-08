@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}GovernPrep{% endblock %}
 
@@ -149,28 +150,28 @@
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url('https://ipbindia.com/wp-content/uploads/2024/03/Easies-Government_exams-to-crack-in-India-min.jpg');">
+        <div class="carousel-item active" style="background-image: url('{% static '/exams/img/carousel-1.png' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Master Your Exams</h2>
                 <p class="lead">Practice with thousands of mock tests designed by experts to ensure your success.</p>
                 <a href="#categoryList" class="btn btn-primary btn-lg mt-3">Explore Exams</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('https://thumbs.dreamstime.com/z/flat-lay-composition-laptop-smartphone-phrase-online-exam-wooden-background-179521400.jpg');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-2.png' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">In-Depth Performance Analytics</h2>
                 <p class="lead">Track your progress, identify weak areas, and improve with detailed reports.</p>
                 <a href="{% if user.is_authenticated %}{% url 'users:dashboard' %}{% else %}{% url 'users:login' %}{% endif %}" class="btn btn-primary btn-lg mt-3">View Dashboard</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-3.png' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Expert-Curated Content</h2>
                 <p class="lead">Access high-quality study materials and questions covering all major government exams.</p>
                 <a href="{% url 'exams:about_us' %}" class="btn btn-primary btn-lg mt-3">Learn More</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('https://png.pngtree.com/thumb_back/fw800/background/20220716/pngtree-online-registration-form-for-modish-form-filling-man-student-login-photo-image_47577148.jpg');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-4.png' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Start Your Journey Today</h2>
                 <p class="lead">Join thousands of successful aspirants. Sign up now and take the first step towards your dream job.</p>
@@ -218,7 +219,7 @@
             <div class="category-container mb-3 fade-in-up">
                 <div class="p-3 bg-white border rounded d-flex justify-content-between align-items-center category-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ category.id }}" aria-expanded="false">
                     <div class="d-flex align-items-center">
-                        <img src="{{ category.logo_url }}" alt="{{ category.name }} Logo" class="me-3" style="width: 40px; height: 40px; object-fit: contain;">
+                        <img src="{% static category.logo_url %}" alt="{{ category.name }} Logo" class="me-3" style="width: 40px; height: 40px; object-fit: contain;">
                         <h5 class="mb-0 category-name">{{ category.name }} Exams</h5>
                     </div>
                     <span class="arrow fs-4">&#9660;</span>
@@ -269,7 +270,7 @@
                 {% for exam in user.subscribed_exams.all %}
                     <div class="card text-center">
                         <div class="card-body">
-                            <img src="{{ exam.logo_url }}" class="img-fluid mb-3" alt="{{ exam.title }} Logo" style="max-height: 70px; object-fit: contain;">
+                            <img src="{% static exam.logo_url %}" class="img-fluid mb-3" alt="{{ exam.title }} Logo" style="max-height: 70px; object-fit: contain;">
                             <h5 class="card-title">{{ exam.title }}</h5>
                             <p class="card-text text-muted small">{{ exam.description|truncatewords:10 }}</p>
                         </div>

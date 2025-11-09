@@ -150,28 +150,28 @@
         <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
     </div>
     <div class="carousel-inner">
-        <div class="carousel-item active" style="background-image: url('{% static '/exams/img/carousel-1.png' %}');">
+        <div class="carousel-item active" style="background-image: url('{% static '/exams/img/carousel-1.jpg' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Master Your Exams</h2>
                 <p class="lead">Practice with thousands of mock tests designed by experts to ensure your success.</p>
                 <a href="#categoryList" class="btn btn-primary btn-lg mt-3">Explore Exams</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-2.png' %}');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-2.jpg' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">In-Depth Performance Analytics</h2>
                 <p class="lead">Track your progress, identify weak areas, and improve with detailed reports.</p>
                 <a href="{% if user.is_authenticated %}{% url 'users:dashboard' %}{% else %}{% url 'users:login' %}{% endif %}" class="btn btn-primary btn-lg mt-3">View Dashboard</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-3.png' %}');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-3.jpg' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Expert-Curated Content</h2>
                 <p class="lead">Access high-quality study materials and questions covering all major government exams.</p>
                 <a href="{% url 'exams:about_us' %}" class="btn btn-primary btn-lg mt-3">Learn More</a>
             </div>
         </div>
-        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-4.png' %}');">
+        <div class="carousel-item" style="background-image: url('{% static '/exams/img/carousel-4.jpg' %}');">
             <div class="carousel-caption d-none d-md-block">
                 <h2 class="display-5 fw-bold">Start Your Journey Today</h2>
                 <p class="lead">Join thousands of successful aspirants. Sign up now and take the first step towards your dream job.</p>

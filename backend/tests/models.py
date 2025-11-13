@@ -62,14 +62,28 @@ class MockTest(models.Model):
 class TestResult(models.Model):
     """
     User dwara diye gaye har mock test ke result ko store karta hai.
+    (Ise naye fields ke saath update kar diya gaya hai)
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     mock_test = models.ForeignKey(MockTest, on_delete=models.CASCADE)
-    score = models.IntegerField()
-    total = models.IntegerField()
+    
+    # === YAHAN BADLAV KIYA GAYA HAI ===
+    
+    # Score mein decimal (jaise 10.25) ho sakta hai, isliye IntegerField se behtar hai
+    score = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    
+    # Aapke purane 'total' field ko 'total_marks' se badal diya gaya hai
+    total_marks = models.IntegerField()
+    
+    # Yeh 3 naye fields (khaane) add kiye gaye hain
+    total_correct = models.IntegerField(default=0)
+    total_incorrect = models.IntegerField(default=0)
+    total_unanswered = models.IntegerField(default=0)
+    
+    # === BADLAV YAHAN KHATAM HOTA HAI ===
+    
     timestamp = models.DateTimeField(auto_now_add=True)
-    # Yeh store karega ki is test mein kaun se random questions aaye the
-    question_ids = models.JSONField(default=list)
+    question_ids = models.JSONField(default=list) # Yeh field waisa hi hai
 
     def __str__(self):
         return f"{self.user.username} - {self.mock_test.title}"

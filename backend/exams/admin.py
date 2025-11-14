@@ -5,7 +5,7 @@ from django.utils.html import format_html
 
 from tests.models import Question, Choice, MockTest
 from .forms import CsvUploadForm
-from .models import Exam, ExamCategory, ContactMessage
+from .models import Exam, ExamCategory, ContactMessage ,Notice
 import csv
 import io
 
@@ -113,3 +113,9 @@ class ContactMessageAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         # Admin ko naye message add karne ka option na dein
         return False
+    
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'is_active')
+    list_filter = ('is_active', 'created_at')
+    search_fields = ('title', 'content')   

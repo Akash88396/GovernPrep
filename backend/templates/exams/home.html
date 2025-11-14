@@ -136,7 +136,86 @@
     .my-series-section { background: linear-gradient(135deg, #e6f0ff 0%, #f5eefc 100%); border-radius: 20px; padding: 3rem; border: 1px solid #e0e0e0; }
 
 
+
+    
+    .marquee-container {
+        margin-top: -10px;
+        margin-bottom: 0.9rem; 
+        background-color: #fff;
+        border-top: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        padding: 0.2rem 0;
+    }
+    .marquee-label {
+        background-color: #dc3545; 
+        color: white;
+        font-weight: 600;
+        white-space: nowrap;
+        z-index: 2;
+        padding: 0.15rem 0.6rem;  
+        font-size: 0.75rem;
+    }
+    .marquee-content {
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 100%;
+        animation: marquee 20s linear infinite;
+        font-size: 0.8rem
+    }
+    .marquee-content a {
+        display: inline-block;
+        margin: 0 1.5rem;
+        color: #343a40;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    .marquee-content a:hover {
+        color: #fd0d0dff;
+    }
+    @keyframes marquee {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+    /* === MARQUEE CSS YAHAN KHATAM HOTA HAI === */
+
+
+
+
+
+
 </style>
+
+
+
+{% if notices %}
+<div class="marquee-container">
+    <div class="marquee-label">
+        Latest Notifications
+    </div>
+    <div class="marquee-content" id="marquee">
+        {% for notice in notices %}
+            <a href="{% url 'exams:notice_detail' notice.id %}">
+                <i class="bi bi-bell-fill me-1"></i> {{ notice.title }}
+            </a>
+        {% endfor %}
+        <!-- Content ko repeat karein taaki smooth scroll ho sake -->
+        {% for notice in notices %}
+            <a href="{% url 'exams:notice_detail' notice.id %}">
+                <i class="bi bi-bell-fill me-1"></i> {{ notice.title }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+<!-- === NAYA SECTION YAHAN KHATAM HOTA HAI === -->
+
+
+
+
 
 
 
@@ -290,7 +369,28 @@
 <!-- JavaScript for Search, Slider, and Scroll Animations -->
 <script>
 
-    
+    //news stop and Resume
+    const marquee = document.getElementById("marquee");
+
+    // Mouse Hover Pause/Resume
+    marquee.addEventListener("mouseover", () => {
+        marquee.style.animationPlayState = "paused";
+    });
+
+    marquee.addEventListener("mouseout", () => {
+        marquee.style.animationPlayState = "running";
+    });
+
+    // Mobile Touch Pause/Resume
+    marquee.addEventListener("touchstart", () => {
+        marquee.style.animationPlayState = "paused";
+    });
+
+    marquee.addEventListener("touchend", () => {
+        marquee.style.animationPlayState = "running";
+    });
+
+
     // Slider Function
     function scrollSlider(sliderId, distance) {
         const slider = document.getElementById(sliderId);

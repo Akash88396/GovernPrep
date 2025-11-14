@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from tests.models import MockTest
 from .forms import ContactForm 
 from django.contrib import messages 
-from .models import ContactMessage
+from .models import ContactMessage,Notice
 
 
 
@@ -15,7 +15,7 @@ def home_view(request):
     categories = ExamCategory.objects.prefetch_related('exams').all()
     
     # === YAHAN BADLAV KIYA GAYA HAI ===
-    
+    notices = Notice.objects.filter(is_active=True).order_by('-created_at')[:10]
     # Sahi count calculate karein
     category_count = ExamCategory.objects.count()
     mock_test_count = MockTest.objects.count() # Total mock tests ka count
@@ -26,6 +26,7 @@ def home_view(request):
         'category_count': category_count,
         'mock_test_count': mock_test_count, # Naya variable context mein bhejein
         'aspirant_count': aspirant_count,
+        'notices': notices,
     }
     return render(request, 'exams/home.html', context)
 
@@ -65,3 +66,13 @@ def add_exam_view(request, exam_id):
     exam.subscribers.add(request.user)
     # User ko wapas homepage par bhej dein
     return redirect('exams:home')
+
+def notice_detail_view(request, notice_id):
+    """
+    Ek single notice (news) ko poore detail mein dikhata hai.
+    """
+    notice = get_object_or_404(Notice, pk=notice_id, is_active=True)
+    context = {
+        'notice': notice
+    }
+    return render(request, 'exams/notice_detail.html', context)

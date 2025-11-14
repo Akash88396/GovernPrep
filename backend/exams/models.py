@@ -38,3 +38,16 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} ({self.email})"    
+    
+class Notice(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True) # Isse aap purani news ko hide kar sakte hain
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-created_at'] # Hamesha sabse nayi news upar dikhegi
+        verbose_name_plural = "Notices"    

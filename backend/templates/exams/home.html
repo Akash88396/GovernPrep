@@ -43,11 +43,11 @@
 
     /* Slider aur Cards */
     .slider-container { position: relative; }
-    /* === YAHAN BADLAV KIYA GAYA HAI === */
+
     .scrolling-wrapper { 
         display: flex; 
         overflow-x: auto; 
-        gap: 1rem; /* Gap kam kiya gaya hai */
+        gap: 1rem; 
         padding: 1.25rem 0.25rem; 
         scrollbar-width: none; 
         scroll-behavior: smooth; 
@@ -56,7 +56,7 @@
 
     .scrolling-wrapper .card { 
         flex: 0 0 auto; 
-        width: 260px; /* Card ki chaudai kam ki gayi hai */
+        width: 260px;
         border: 1px solid #e9ecef; 
         box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
         transition: all 0.3s ease; 
@@ -97,7 +97,7 @@
 
 
     .carousel-item {
-        height: 500px;
+        height: 400px;
         background-color: #333;
         background-size: cover;
         background-position: center;
@@ -180,12 +180,7 @@
         0%   { transform: translateX(0); }
         100% { transform: translateX(-100%); }
     }
-    /* === MARQUEE CSS YAHAN KHATAM HOTA HAI === */
-
-
-
-
-
+   
 
 </style>
 
@@ -202,7 +197,7 @@
                 <i class="bi bi-bell-fill me-1"></i> {{ notice.title }}
             </a>
         {% endfor %}
-        <!-- Content ko repeat karein taaki smooth scroll ho sake -->
+        
         {% for notice in notices %}
             <a href="{% url 'exams:notice_detail' notice.id %}">
                 <i class="bi bi-bell-fill me-1"></i> {{ notice.title }}
@@ -400,10 +395,15 @@
     }
 
     // Search Filter Function
-    function filterCategories() {
-        const input = document.getElementById('examSearch');
+  function filterCategories() {
+       
+        const input = document.getElementById('navbarExamSearch'); 
+        if (!input) return; // Agar input nahi mila to function rok dein
+        
         const filter = input.value.toUpperCase();
         const categoryList = document.getElementById('categoryList');
+        if (!categoryList) return; // Agar category list nahi mili to rok dein
+        
         const categories = categoryList.getElementsByClassName('category-container');
         for (let i = 0; i < categories.length; i++) {
             const categoryName = categories[i].getElementsByClassName('category-name')[0];
@@ -417,6 +417,10 @@
             }
         }
     }
+     const navbarSearchInput = document.getElementById('navbarExamSearch');
+        if (navbarSearchInput) {
+            navbarSearchInput.addEventListener('keyup', filterCategories);
+        }
 
     // Scroll Animations Function
     document.addEventListener("DOMContentLoaded", function() {

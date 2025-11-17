@@ -1,0 +1,85 @@
+:root {
+    --primary-color: #0d6efd;
+    --heading-font: 'Poppins', sans-serif;
+    --body-font: 'Poppins', sans-serif;
+    --border-radius: 0.5rem;
+    --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    --footer-bg: #2d3436; 
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: #f8f9fa;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--heading-font);
+    font-weight: 600;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease-in-out;
+}
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.form-control {
+    border-radius: var(--border-radius);
+    
+    padding: 0.5rem 1rem; 
+}
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.footer-link {
+    transition: color 0.2s ease-in-out, padding-left 0.2s ease-in-out;
+}
+.footer-link:hover {
+    color: #fff !important;
+    padding-left: 5px;
+}
+
+.navbar-nav .nav-item {
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-item:hover {
+    background-color: #AEC6CF; 
+}
+
+.navbar-nav .nav-item:hover .nav-link {
+    color: #fff !important; 
+}
+
+
+.navbar {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.nav-logo {
+    max-height: 55px; 
+    width: 80px;
+    margin-right: 8px;
+}
